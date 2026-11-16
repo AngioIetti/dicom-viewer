@@ -1,0 +1,14 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: dicom-dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      DISPLAY: ${DISPLAY}
+    stdin_open: true
+    tty: true
