@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Widgets)
+find_package(DCMTK CONFIG REQUIRED)
 
 qt_standard_project_setup()
 

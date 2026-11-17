@@ -17,6 +17,8 @@ RUN apt-get update && apt-get install -y \
     qt6-base-dev-tools \
     qt6-tools-dev \
     qt6-tools-dev-tools \
+    libdcmtk-dev \
+    libnsl-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /workspace

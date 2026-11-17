@@ -4,4 +4,5 @@ qt_add_executable(dicom-viewer
 
 target_link_libraries(dicom-viewer
     PRIVATE Qt6::Widgets
+    DCMTK::DCMTK
 )
