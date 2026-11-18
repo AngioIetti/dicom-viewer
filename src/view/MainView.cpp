@@ -78,11 +78,14 @@ MainView::MainView() {
 
 MainView::~MainView() {}
 
-void MainView::DisplayImage(const uint8_t *pixels, int width, int height) {
-  QImage image(pixels, width, height, width, QImage::Format_Grayscale8);
+void MainView::DisplayImage(const uint8_t *pixels, int width, int height,
+                            bool is_color) {
+  const QImage image =
+      is_color
+          ? QImage(pixels, width, height, 3 * width, QImage::Format_RGB888)
+          : QImage(pixels, width, height, width, QImage::Format_Grayscale8);
   image_label_->setPixmap(QPixmap::fromImage(image).scaled(
       image_label_->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
-  window_controls_->show();
 }
 
 void MainView::DisplayMessage(const QString &message) {
@@ -122,6 +125,11 @@ void MainView::SetWindowControls(int min_level, int max_level, int max_width,
   window_level_slider_->setRange(min_level, max_level);
   window_level_slider_->setValue(level);
   UpdateWindowLabels();
+  window_controls_->show();
+}
+
+void MainView::HideWindowControls() { 
+  window_controls_->hide();
 }
 
 void MainView::OnWindowSliderChanged() {

@@ -17,11 +17,13 @@ public:
   MainView();
   ~MainView();
 
-  void DisplayImage(const uint8_t *pixels, int width, int height);
+  void DisplayImage(const uint8_t *pixels, int width, int height,
+                    bool is_color);
   void DisplayMessage(const QString &message);
   void DisplayMetadata(const QString &tag, const QString &value);
   void SetWindowControls(int min_level, int max_level, int max_width, int level,
                          int width);
+  void HideWindowControls();
 
 Q_SIGNALS:
   void SignalFileSelected(const QString &file_path);

@@ -1,6 +1,7 @@
 #include "MainViewController.h"
 
 #include "dcmtk/dcmdata/dctk.h"
+#include "dcmtk/dcmimage/diregist.h"
 
 #include <algorithm>
 #include <cmath>
@@ -28,6 +29,8 @@ void MainViewController::OnFileSelected(const QString &file_path) {
 }
 
 void MainViewController::ParseImage(const QString &file_path) {
+  main_view_->HideWindowControls();
+
   dicom_image_ = std::make_unique<DicomImage>(file_path.toStdString().c_str());
 
   if (dicom_image_->getStatus() != EIS_Normal) {
@@ -36,14 +39,12 @@ void MainViewController::ParseImage(const QString &file_path) {
     return;
   }
 
-  if (!dicom_image_->isMonochrome()) {
-    main_view_->DisplayMessage("DICOM image is not monochrome");
-    dicom_image_ = nullptr;
-    return;
+  if (dicom_image_->isMonochrome()) {
+    InitWindow();
   }
 
-  InitWindow();
   if (!RenderImage()) {
+    main_view_->HideWindowControls();
     main_view_->DisplayMessage("Invalid image data");
     return;
   }
@@ -52,7 +53,7 @@ void MainViewController::ParseImage(const QString &file_path) {
 }
 
 void MainViewController::OnWindowChanged(int width, int level) {
-  if (!dicom_image_) {
+  if (!dicom_image_ || !dicom_image_->isMonochrome()) {
     return;
   }
 
@@ -72,7 +73,8 @@ bool MainViewController::RenderImage() {
     return false;
   }
 
-  main_view_->DisplayImage(pixels, width, height);
+  main_view_->DisplayImage(pixels, width, height,
+                           !dicom_image_->isMonochrome());
   return true;
 }
 

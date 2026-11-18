@@ -1,11 +1,18 @@
 #include <QApplication>
 
 #include "view/MainViewController.h"
+#include <dcmtk/dcmdata/dcrledrg.h>
 #include <dcmtk/dcmjpeg/djdecode.h>
 
 struct DcmtkCodecGuard {
-  DcmtkCodecGuard() { DJDecoderRegistration::registerCodecs(); }
-  ~DcmtkCodecGuard() { DJDecoderRegistration::cleanup(); }
+  DcmtkCodecGuard() {
+    DJDecoderRegistration::registerCodecs();
+    DcmRLEDecoderRegistration::registerCodecs();
+  }
+  ~DcmtkCodecGuard() {
+    DcmRLEDecoderRegistration::cleanup();
+    DJDecoderRegistration::cleanup();
+  }
 };
 
 int main(int argc, char *argv[]) {
