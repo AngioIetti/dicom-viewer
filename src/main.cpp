@@ -1,29 +1,19 @@
 #include <QApplication>
-#include <QWidget>
 
-#include <dcmtk/dcmdata/dctk.h>
+#include "view/MainViewController.h"
+#include <dcmtk/dcmjpeg/djdecode.h>
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
+struct DcmtkCodecGuard {
+  DcmtkCodecGuard() { DJDecoderRegistration::registerCodecs(); }
+  ~DcmtkCodecGuard() { DJDecoderRegistration::cleanup(); }
+};
 
-    DcmFileFormat file;
-    OFCondition status = file.loadFile("anonymized_mamo.dcm");
-    if (status.bad()) {
-        throw std::runtime_error("Failed to load DICOM file");
-    }
+int main(int argc, char *argv[]) {
+  QApplication app(argc, argv);
 
-    DcmDataset *dataset = file.getDataset();
-    OFString patientName;
-    if (dataset->findAndGetOFString(DCM_PatientName, patientName).good()) {
-        std::cout << "Patient Name: " << patientName.c_str() << std::endl;
-    }
+  DcmtkCodecGuard codec_guard;
+  view::MainViewController main_view;
+  main_view.Exec();
 
-    QWidget window;
-    window.resize(320, 240);
-    window.setWindowTitle(
-        QApplication::translate("toplevel", "DICOM Viewer"));
-    window.show();
-
-    return app.exec();
+  return app.exec();
 }
