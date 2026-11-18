@@ -8,6 +8,7 @@ services:
     volumes:
       - .:/workspace
       - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${HOME}:${HOME}:ro
     environment:
       DISPLAY: ${DISPLAY}
     stdin_open: true
