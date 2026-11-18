@@ -22,6 +22,9 @@ public:
 private:
   void OnFileSelected(const QString &file_path);
 
+  void ParseImage(const QString &file_path);
+  void ParseMetadata(const QString &file_path);
+
   MainView *main_view_;
   std::unique_ptr<DicomImage> dicom_image_;
 };

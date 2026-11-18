@@ -1,5 +1,7 @@
 #include "MainViewController.h"
 
+#include "dcmtk/dcmdata/dctk.h"
+
 namespace view {
 
 MainViewController::MainViewController() : main_view_(new MainView()) {
@@ -16,6 +18,11 @@ void MainViewController::Exec() {
 }
 
 void MainViewController::OnFileSelected(const QString &file_path) {
+  ParseImage(file_path);
+  ParseMetadata(file_path);
+}
+
+void MainViewController::ParseImage(const QString &file_path) {
   dicom_image_ = std::make_unique<DicomImage>(file_path.toStdString().c_str());
 
   if (dicom_image_->getStatus() != EIS_Normal) {
@@ -41,6 +48,40 @@ void MainViewController::OnFileSelected(const QString &file_path) {
 
   main_view_->DisplayImage(pixels, width, height);
   main_view_->DisplayMessage("Image loaded successfully");
+}
+
+void MainViewController::ParseMetadata(const QString &file_path) {
+  DcmFileFormat file_format;
+  if (file_format.loadFile(file_path.toStdString().c_str()).bad()) {
+    main_view_->DisplayMessage("Failed to load DICOM metadata");
+    return;
+  }
+
+  DcmDataset *dataset = file_format.getDataset();
+  if (!dataset) {
+    main_view_->DisplayMessage("Invalid DICOM dataset");
+    return;
+  }
+
+  DcmStack stack;
+  while (dataset->nextObject(stack, OFTrue).good()) {
+    DcmObject *obj = stack.top();
+    DcmTagKey tag = obj->getTag();
+
+    if (tag.isPrivate()) {
+      continue;
+    }
+
+    if (!obj->isLeaf()) {
+      continue;
+    }
+
+    DcmElement *elem = OFstatic_cast(DcmElement *, obj);
+    OFString value;
+    if (elem->getOFStringArray(value).good()) {
+      main_view_->DisplayMetadata(DcmTag(tag).getTagName(), value.c_str());
+    }
+  }
 }
 
 } // namespace view

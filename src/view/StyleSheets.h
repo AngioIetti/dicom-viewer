@@ -26,6 +26,24 @@ constexpr const char *kErrorConsoleStyle = "QPlainTextEdit {"
                                            "    border: 1px solid #555555;"
                                            "}";
 
+constexpr const char *kMetadataTableStyle = "QTableWidget {"
+                                            "    background-color: #111111;"
+                                            "    color: white;"
+                                            "    gridline-color: #333333;"
+                                            "    border: 1px solid #333333;"
+                                            "    selection-background-color: #333333;"
+                                            "    selection-color: white;"
+                                            "}"
+                                            "QHeaderView::section {"
+                                            "    background-color: #222222;"
+                                            "    color: white;"
+                                            "    padding: 5px;"
+                                            "    border: 1px solid #333333;"
+                                            "}"
+                                            "QTableWidget::item {"
+                                            "    padding: 4px;"
+                                            "}";
+
 } // namespace view
 
 #endif // STYLE_SHEETS_H

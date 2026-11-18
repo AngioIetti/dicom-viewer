@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QPushButton>
+#include <QTableWidget>
 #include <QWidget>
 
 namespace view {
@@ -17,6 +18,7 @@ public:
 
   void DisplayImage(const uint8_t *pixels, int width, int height);
   void DisplayMessage(const QString &message);
+  void DisplayMetadata(const QString &tag, const QString &value);
 
 Q_SIGNALS:
   void SignalFileSelected(const QString &file_path);
@@ -27,7 +29,8 @@ private:
   QLabel *image_label_;
   QPushButton *browse_button_;
   QBoxLayout *layout_;
-  QPlainTextEdit* message_box_;
+  QPlainTextEdit *message_box_;
+  QTableWidget *metadata_table_;
 };
 
 } // namespace view
