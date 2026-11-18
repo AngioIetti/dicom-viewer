@@ -21,9 +21,12 @@ public:
 
 private:
   void OnFileSelected(const QString &file_path);
+  void OnWindowChanged(int width, int level);
 
   void ParseImage(const QString &file_path);
   void ParseMetadata(const QString &file_path);
+  void InitWindow();
+  bool RenderImage();
 
   MainView *main_view_;
   std::unique_ptr<DicomImage> dicom_image_;

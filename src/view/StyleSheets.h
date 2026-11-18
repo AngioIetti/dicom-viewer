@@ -44,6 +44,20 @@ constexpr const char *kMetadataTableStyle = "QTableWidget {"
                                             "    padding: 4px;"
                                             "}";
 
+constexpr const char *kSliderStyle = "QSlider::groove:horizontal {"
+                                     "    background: #333333;"
+                                     "    height: 4px;"
+                                     "}"
+                                     "QSlider::sub-page:horizontal {"
+                                     "    background: #888888;"
+                                     "}"
+                                     "QSlider::handle:horizontal {"
+                                     "    background: white;"
+                                     "    width: 12px;"
+                                     "    margin: -5px 0;"
+                                     "    border-radius: 6px;"
+                                     "}";
+
 } // namespace view
 
 #endif // STYLE_SHEETS_H
