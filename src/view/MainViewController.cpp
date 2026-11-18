@@ -19,12 +19,12 @@ void MainViewController::OnFileSelected(const QString &file_path) {
   dicom_image_ = std::make_unique<DicomImage>(file_path.toStdString().c_str());
 
   if (dicom_image_->getStatus() != EIS_Normal) {
-    //  Show error message
+    main_view_->DisplayMessage("Failed to load DICOM image");
     return;
   }
 
   if (!dicom_image_->isMonochrome()) {
-    //  Show error message
+    main_view_->DisplayMessage("DICOM image is not monochrome");
     return;
   }
 
@@ -35,11 +35,12 @@ void MainViewController::OnFileSelected(const QString &file_path) {
   const auto height = dicom_image_->getHeight();
 
   if (!pixels || width == 0 || height == 0) {
-    //  Show error message
+    main_view_->DisplayMessage("Invalid image data");
     return;
   }
 
   main_view_->DisplayImage(pixels, width, height);
+  main_view_->DisplayMessage("Image loaded successfully");
 }
 
 } // namespace view

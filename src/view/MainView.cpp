@@ -25,9 +25,16 @@ MainView::MainView() {
   connect(browse_button_, &QPushButton::clicked, this,
           &MainView::OnBrowseButtonClicked);
 
+  message_box_ = new QPlainTextEdit();
+  message_box_->setReadOnly(true);
+  message_box_->setPlaceholderText("No messages");
+  message_box_->setMaximumHeight(100);
+  message_box_->setStyleSheet(view::kErrorConsoleStyle);
+
   layout_ = new QVBoxLayout(this);
   layout_->addWidget(image_label_, 1);
   layout_->addWidget(browse_button_);
+  layout_->addWidget(message_box_);
 }
 
 MainView::~MainView() {}
@@ -36,6 +43,10 @@ void MainView::DisplayImage(const uint8_t *pixels, int width, int height) {
   QImage image(pixels, width, height, width, QImage::Format_Grayscale8);
   image_label_->setPixmap(QPixmap::fromImage(image).scaled(
       image_label_->size(), Qt::KeepAspectRatio, Qt::SmoothTransformation));
+}
+
+void MainView::DisplayMessage(const QString &message) {
+  message_box_->appendPlainText(message);
 }
 
 void MainView::OnBrowseButtonClicked() {

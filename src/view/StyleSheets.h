@@ -20,6 +20,12 @@ constexpr const char *kButtonStyle = "QPushButton {"
                                      "    background-color: #333;"
                                      "}";
 
+constexpr const char *kErrorConsoleStyle = "QPlainTextEdit {"
+                                           "    background-color: #000000;"
+                                           "    color: #ffffff;"
+                                           "    border: 1px solid #555555;"
+                                           "}";
+
 } // namespace view
 
 #endif // STYLE_SHEETS_H
