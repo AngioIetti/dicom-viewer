@@ -46,7 +46,7 @@ Then:
 ./scripts/run_docker.sh
 ```
 
-Your home folder is mounted read-only inside the container, so its files can be opened from the file dialog. If the window does not appear ("could not connect to display"), run `xhost +local:` once.
+Your home folder is mounted read-only inside the container, so its files can be opened from the file dialog.
 
 ### Native
 
